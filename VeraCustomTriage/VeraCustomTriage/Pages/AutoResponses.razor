@@ -1,0 +1,92 @@
+﻿@page "/AutoResponses"
+
+@using VeraCustomTriage.Shared
+@using VeraCustomTriage.Shared.Models
+@inject IGenericRepository<AutoResponse> responseRepo
+@inject IJSRuntime jsRuntime
+
+<h1>Auto Responses</h1>
+
+<p>Current rules that are run against triage flaws.</p>
+
+@if (autoResponses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Conditions</th>
+                <th>Response</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var autoResponse in autoResponses)
+            {
+                <tr>
+                    <td>@autoResponse.Title</td>
+                    <td>@string.Join(',', autoResponse.PropertyConditions.Select(x => $"{x.Property}={x.Condition}").ToArray())</td>
+                    <td>@autoResponse.Response</td>
+                    <td><input type="button" class="btn btn-primary" @onclick="(() => PrepareForEdit(autoResponse))" data-toggle="modal" data-target="#taskModal" value="Edit" /></td>
+                    <td><input type="button" class="btn btn-danger" @onclick="(() => PrepareForDelete(autoResponse))" data-toggle="modal" data-target="#confirmDeleteModal" value="Delete" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <input type="button" data-toggle="modal" data-target="#taskModal" class="btn btn-primary" value="Add Auto Response" @onclick="(() => InitializeTaskObject())" />
+    </div>
+
+    <ConfirmDialog OnClick="@Delete" />
+    <AutoResponseDetail TaskObject=taskObject DataChanged="@DataChanged">
+        <CustomHeader>@customHeader</CustomHeader>
+    </AutoResponseDetail>
+}
+
+@code {
+    private AutoResponse[] autoResponses;
+    AutoResponse taskObject = new AutoResponse();
+    string customHeader = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        autoResponses = responseRepo.GetAll().ToArray();
+    }
+
+    private void InitializeTaskObject()
+    {
+        taskObject = new AutoResponse();
+        customHeader = "Add Auto Response";
+    }
+
+    private async void DataChanged()
+    {
+        autoResponses = responseRepo.GetAll().ToArray();
+        StateHasChanged();
+    }
+
+    private void PrepareForEdit(AutoResponse task)
+    {
+        customHeader = "Edit Auto Response";
+        taskObject = task;
+    }
+
+    private void PrepareForDelete(AutoResponse task)
+    {
+        taskObject = task;
+    }
+
+    private async Task Delete()
+    {
+        await responseRepo.Delete(taskObject.Id);
+        await jsRuntime.InvokeAsync<object>("CloseModal", "confirmDeleteModal");
+        autoResponses = responseRepo.GetAll().ToArray();
+        taskObject = new AutoResponse();
+    }
+}

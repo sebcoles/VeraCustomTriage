@@ -1,0 +1,93 @@
+﻿@page "/Templates"
+
+@using VeraCustomTriage.Shared
+@using VeraCustomTriage.Shared.Models
+@inject IGenericRepository<Template> templateRepo
+@inject IJSRuntime jsRuntime
+
+<h1>Templates</h1>
+
+<h2>Flaws</h2>
+<p>Use the below template variables to create a custom email:<br>{app_name}, {very_high_flaw_count}, {high_flaw_count}, {latest_scan_date}, {latest_scan_name}</p>
+@if (flawTemplate != null)
+{
+    <EditForm Model="@flawTemplate" OnValidSubmit="@(() => UpdateTemplate(flawTemplate))">
+        <InputTextArea id="template" class="form-control" @bind-Value="@flawTemplate.Text" style="height:200px" />
+        <input type="submit" class="btn btn-primary" value="Update" />
+    </EditForm>
+}
+
+
+<h2>Modules</h2>
+<p>Use the below template variables to create a custom email:<br>{app_name}, {latest_scan_date}, {latest_scan_name}, {latest_entry_points_count}, {list_all_latest_modules_count}, {list_all_latest_modules}, {missing_from_previous_scan}</p>
+@if (moduleTemplate != null)
+{
+    <EditForm Model="@moduleTemplate" OnValidSubmit="@(() => UpdateTemplate(moduleTemplate))">
+        <InputTextArea id="template" class="form-control" @bind-Value="@moduleTemplate.Text" style="height:200px" />
+        <input type="submit" class="btn btn-primary" value="Update" />
+    </EditForm>
+}
+
+
+<h2>Uploads</h2>
+<p>Use the below template variables to create a custom email:<br>{app_name}, {latest_scan_date}, {latest_scan_name}, {list_latest_file_uploads}, {latest_file_uploads_count}, {previous_file_uploads_from_last_12_scans_missing}, {changed_files_from_last_scan}, {added_files_from_last_scan}, {removed_files_from_last_scan}</p>
+@if (binaryTemplate != null)
+{
+    <EditForm Model="@binaryTemplate" OnValidSubmit="@(() => UpdateTemplate(binaryTemplate))">
+        <InputTextArea id="template" class="form-control" @bind-Value="@binaryTemplate.Text" style="height:200px" />
+        <input type="submit" class="btn btn-primary" value="Update" />
+    </EditForm>
+}
+
+
+<h2>Supporting Files</h2>
+<p>Use the below template variables to create a custom email:<br>{app_name}, {latest_scan_date}, {count_missing_supporting_files}, {list_missing_supporting_files}, </p>
+@if (supportingTemplate != null)
+{
+    <EditForm Model="@supportingTemplate" OnValidSubmit="@(() => UpdateTemplate(supportingTemplate))">
+        <InputTextArea id="template" class="form-control" @bind-Value="@supportingTemplate.Text" style="height:200px" />
+        <input type="submit" class="btn btn-primary" value="Update" />
+    </EditForm>
+}
+
+
+@code {
+    Template flawTemplate;
+    Template moduleTemplate;
+    Template binaryTemplate;
+    Template supportingTemplate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        flawTemplate = templateRepo.GetAll().FirstOrDefault(x => x.Title == "flaws");
+        if (flawTemplate == null)
+            flawTemplate = new Template { Title = "flaws" };
+
+        moduleTemplate = templateRepo.GetAll().FirstOrDefault(x => x.Title == "modules");
+        if (moduleTemplate == null)
+            moduleTemplate = new Template { Title = "modules" };
+
+        binaryTemplate = templateRepo.GetAll().FirstOrDefault(x => x.Title == "binaries");
+        if (binaryTemplate == null)
+            binaryTemplate = new Template { Title = "binaries" };
+
+        supportingTemplate = templateRepo.GetAll().FirstOrDefault(x => x.Title == "supporting_files");
+        if (supportingTemplate == null)
+            supportingTemplate = new Template { Title = "supporting_files" };
+
+    }
+
+    private async Task UpdateTemplate(Template templateModel)
+    {
+        var template = templateRepo.GetAll().FirstOrDefault(x => x.Title == templateModel.Title);
+        if (template == null)
+        {
+            await templateRepo.Create(new Template { Title = templateModel.Title, Text = templateModel.Text });
+        }
+        else
+        {
+            template.Text = templateModel.Text;
+            await templateRepo.Update(template);
+        }
+    }
+}

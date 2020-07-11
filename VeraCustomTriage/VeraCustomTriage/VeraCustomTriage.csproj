@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>37c03db7-b846-4f05-acd8-b081231c2fd9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Veracode.OSS.Wrapper" Version="2020.7.1.214051" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VeraCustomTriage.DataAccess\VeraCustomTriage.DataAccess.Mssql.csproj" />
+    <ProjectReference Include="..\VeraCustomTriage.Logic\VeraCustomTriage.Logic.csproj" />
+  </ItemGroup>
+
+</Project>

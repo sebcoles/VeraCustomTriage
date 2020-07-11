@@ -1,0 +1,99 @@
+﻿@page "/"
+
+@using VeraCustomTriage.Logic.Models;
+@using VeraCustomTriage.Logic;
+@inject IReportGenerator reportGenerator
+@inject IJSRuntime jsRuntime
+<h1>Custom Triage</h1>
+
+Generate custom responses for an application and scan.
+
+<EditForm Model="@taskObject" OnValidSubmit="@Nothing">
+    <div class="form-group">
+        <label for="appId">AppId</label>
+        <InputNumber id="appId" class="form-control" @bind-Value="@taskObject.AppId" />
+        <label for="scanId">ScanId</label>
+        <InputNumber id="scanId" class="form-control" @bind-Value="@taskObject.ScanId" />
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateSpreadsheet())">XLSX</button>
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateFlawsEmail())">Flaw Email</button>
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateModulesEmail())">Modules Email</button>
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateBinariesEmail())">Binaries Email</button>
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateSupportingEmail())">Supporting Files Email</button>
+        <button type="button" class="btn btn-primary" @onclick="(() => GenerateZip())">Zip</button>
+    </div>
+</EditForm>
+
+
+@code {
+    GenerateReport taskObject = new GenerateReport();
+
+    private void InitializeTaskObject()
+    {
+        taskObject = new GenerateReport();
+    }
+
+    private void Nothing()
+    {
+
+    }
+
+    private async void GenerateSpreadsheet()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}_flaws.xlsx";
+        var reportBytes = reportGenerator.GenerateReport(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+
+    private async void GenerateZip()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}.zip";
+        var reportBytes = reportGenerator.GenerateZip(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+
+    private async void GenerateFlawsEmail()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}_flaws_email.txt";
+        var reportBytes = reportGenerator.GenerateFlawEmail(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+
+    private async void GenerateModulesEmail()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}_modules_email.txt";
+        var reportBytes = reportGenerator.GenerateModulesEmail(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+
+    private async void GenerateBinariesEmail()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}_binaries_email.txt";
+        var reportBytes = reportGenerator.GenerateBinariesEmail(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+
+    private async void GenerateSupportingEmail()
+    {
+        var title = $"{reportGenerator.ScanName(taskObject)}_supporting_files_email.txt";
+        var reportBytes = reportGenerator.GenerateSupportingEmail(taskObject);
+        await jsRuntime.InvokeAsync<object>(
+            "saveAsFile",
+            title,
+            Convert.ToBase64String(reportBytes));
+    }
+}

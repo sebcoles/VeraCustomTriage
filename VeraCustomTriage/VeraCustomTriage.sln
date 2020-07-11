@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage", "VeraCustomTriage\VeraCustomTriage.csproj", "{093ADC3D-A9A6-4FCC-BF3B-9CBEE9EDAD7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.DataAccess.Mssql", "VeraCustomTriage.DataAccess\VeraCustomTriage.DataAccess.Mssql.csproj", "{F0ABE332-45AA-4815-8996-CB4BE3C9F48F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.Logic", "VeraCustomTriage.Logic\VeraCustomTriage.Logic.csproj", "{268DC9AF-0E75-4ED9-B1BF-7A4729A18B99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A0F3F28-8D4B-4DA9-89FF-47C6BBD3AF9B}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.Services", "VeraCustomTriage.Services\VeraCustomTriage.Services.csproj", "{9BEAF9B9-6B23-4A3B-977D-640B2AED86BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.Shared", "VeraCustomTriage.Shared\VeraCustomTriage.Shared.csproj", "{B0248617-FB92-4948-B338-70D9850DE425}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{D066D69F-1DB3-4216-913C-B2F120AD65A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.DataAccess.Json", "VeraCustomTriage.DataAccess.Json\VeraCustomTriage.DataAccess.Json.csproj", "{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{093ADC3D-A9A6-4FCC-BF3B-9CBEE9EDAD7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093ADC3D-A9A6-4FCC-BF3B-9CBEE9EDAD7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093ADC3D-A9A6-4FCC-BF3B-9CBEE9EDAD7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093ADC3D-A9A6-4FCC-BF3B-9CBEE9EDAD7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0ABE332-45AA-4815-8996-CB4BE3C9F48F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0ABE332-45AA-4815-8996-CB4BE3C9F48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0ABE332-45AA-4815-8996-CB4BE3C9F48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0ABE332-45AA-4815-8996-CB4BE3C9F48F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268DC9AF-0E75-4ED9-B1BF-7A4729A18B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268DC9AF-0E75-4ED9-B1BF-7A4729A18B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268DC9AF-0E75-4ED9-B1BF-7A4729A18B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268DC9AF-0E75-4ED9-B1BF-7A4729A18B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BEAF9B9-6B23-4A3B-977D-640B2AED86BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BEAF9B9-6B23-4A3B-977D-640B2AED86BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BEAF9B9-6B23-4A3B-977D-640B2AED86BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BEAF9B9-6B23-4A3B-977D-640B2AED86BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0248617-FB92-4948-B338-70D9850DE425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0248617-FB92-4948-B338-70D9850DE425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0248617-FB92-4948-B338-70D9850DE425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0248617-FB92-4948-B338-70D9850DE425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F0ABE332-45AA-4815-8996-CB4BE3C9F48F} = {D066D69F-1DB3-4216-913C-B2F120AD65A0}
+		{F3F64F9E-95AF-492F-8B0C-704A690CA0AA} = {D066D69F-1DB3-4216-913C-B2F120AD65A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {206C7627-7228-4D2C-B395-A55985F92521}
+	EndGlobalSection
+EndGlobal
