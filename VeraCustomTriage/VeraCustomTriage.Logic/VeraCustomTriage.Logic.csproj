@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VeraCustomTriage.DataAccess\VeraCustomTriage.DataAccess.Mssql.csproj" />
-    <ProjectReference Include="..\VeraCustomTriage.Services\VeraCustomTriage.Services.csproj" />
+    <ProjectReference Include="..\VeraCustomTriage.Shared\VeraCustomTriage.Shared.csproj" />
   </ItemGroup>
 
 </Project>

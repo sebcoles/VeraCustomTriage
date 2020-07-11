@@ -8,7 +8,7 @@ namespace VeraCustomTriage.Logic.Models
     public class GenerateReport
     {
         public string Type { get; set; }
-        public int AppId { get; set; }
-        public int ScanId { get; set; }
+        public string AppId { get; set; }
+        public string ScanId { get; set; }
     }
 }

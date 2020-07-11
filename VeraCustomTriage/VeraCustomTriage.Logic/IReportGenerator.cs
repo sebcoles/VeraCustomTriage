@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VeracodeService;
-using VeraCustomTriage.DataAccess;
 using VeraCustomTriage.Logic.Models;
 using System.IO;
 using VeraCustomTriage.Logic.Models.Templates;
 using VeracodeService.Models;
-using VeraCustomTriage.Services;
-using VeraCustomTriage.Shared.Models;
 using VeraCustomTriage.Shared;
+using VeraCustomTriage.Shared.Models;
 
 namespace VeraCustomTriage.Logic
 {
     public interface IReportGenerator
     {
         public string ScanName(GenerateReport generate);
-        byte[] GenerateZip(GenerateReport generate);
+        byte[] GenerateZip(GenerateReport generate, string password);
         byte[] GenerateReport(GenerateReport generate);
         byte[] GenerateFlawEmail(GenerateReport generate);
         byte[] GenerateModulesEmail(GenerateReport generate);
@@ -30,13 +28,13 @@ namespace VeraCustomTriage.Logic
         private IResponseMapper _responseMapper;
         private IVeracodeRepository _veracodeRepository;
         private IOutputWriter _outputWriter;
-        private IGenericRepository<Template> _templateRepository;
+        private IGenericReadOnlyRepository<Template> _templateRepository;
         private ITemplateWriter _templateWriter;
         private IZippingService _zippingService;
         public ReportGenerator(IResponseMapper responseMapper,
             IVeracodeRepository veracodeRepository,
             IOutputWriter outputWriter,
-            IGenericRepository<Template> templateRepository,
+            IGenericReadOnlyRepository<Template> templateRepository,
             ITemplateWriter templateWriter,
             IZippingService zippingService
             )
@@ -48,17 +46,19 @@ namespace VeraCustomTriage.Logic
             _templateWriter = templateWriter;
             _zippingService = zippingService;
         }
-        public byte[] GenerateZip(GenerateReport generate)
+        public byte[] GenerateZip(GenerateReport generate, string password)
         {
-            var streamsList = new List<MemoryStream>();
             var flaws = _veracodeRepository.GetFlaws(generate.ScanId.ToString());
             var report = new Report
             {
                 FlawsAndResponses = flaws.Select(_responseMapper.GetResponse).ToArray()
             };
             var xlsx = _outputWriter.Write(report);
-            streamsList.Add(xlsx);
-            var zip = _zippingService.Zip("flaws.xlsx", streamsList);
+            var datas = new List<KeyValuePair<string, MemoryStream>>
+            {
+                new KeyValuePair<string, MemoryStream>("flaws.xlsx", xlsx)
+            };
+            var zip = _zippingService.Zip(datas, password);
             return zip.ToArray();
         }
 
@@ -76,8 +76,8 @@ namespace VeraCustomTriage.Logic
         public byte[] GenerateFlawEmail(GenerateReport generate)
         {
             var flaws = _veracodeRepository.GetFlaws(generate.ScanId.ToString());
-            var app = _veracodeRepository.GetAppDetail($"{generate.AppId}");
-            var build = _veracodeRepository.GetBuildDetail($"{generate.AppId}", $"{generate.ScanId}");
+            var app = _veracodeRepository.GetAppDetail(generate.AppId);
+            var build = _veracodeRepository.GetBuildDetail(generate.AppId, generate.ScanId);
             var template = new FlawTemplate
             {
                 app_name = app.application[0].app_name,
@@ -93,17 +93,17 @@ namespace VeraCustomTriage.Logic
 
         public string ScanName(GenerateReport generate)
         {
-            var build = _veracodeRepository.GetBuildDetail($"{generate.AppId}", $"{generate.ScanId}");
+            var build = _veracodeRepository.GetBuildDetail(generate.AppId, generate.ScanId);
             return build.build.version;
         }
 
         public byte[] GenerateModulesEmail(GenerateReport generate)
         {
-            var app = _veracodeRepository.GetAppDetail($"{generate.AppId}");
-            var latestBuild = _veracodeRepository.GetBuildDetail($"{generate.AppId}", $"{generate.ScanId}");
-            var latestEntryPoints = _veracodeRepository.GetEntryPoints($"{generate.ScanId}");
+            var app = _veracodeRepository.GetAppDetail(generate.AppId);
+            var latestBuild = _veracodeRepository.GetBuildDetail(generate.AppId, generate.ScanId);
+            var latestEntryPoints = _veracodeRepository.GetEntryPoints(generate.ScanId);
             var latestModules = _veracodeRepository
-                .GetModules($"{generate.AppId}", $"{generate.ScanId}")
+                .GetModules(generate.AppId, generate.ScanId)
                 .Select(x => new
                 {
                     Name = x.name,
@@ -111,12 +111,12 @@ namespace VeraCustomTriage.Logic
                     EntryPoint = latestEntryPoints.Any(y => y.name == x.name)
                 });
 
-            var previousBuilds = _veracodeRepository.GetAllBuildsForApp($"{generate.AppId}")
+            var previousBuilds = _veracodeRepository.GetAllBuildsForApp(generate.AppId)
                 .OrderByDescending(x => x.build_id);
             var previousBuildId = previousBuilds.Skip(1).Take(1).First().build_id;
             var previousEntryPoints = _veracodeRepository.GetEntryPoints($"{previousBuildId}");
             var previousLatestModules = _veracodeRepository
-                .GetModules($"{generate.AppId}", $"{previousBuildId}")
+                .GetModules(generate.AppId, $"{previousBuildId}")
                 .Select(x => new
                 {
                     Name = x.name,
@@ -143,14 +143,14 @@ namespace VeraCustomTriage.Logic
 
         public byte[] GenerateBinariesEmail(GenerateReport generate)
         {
-            var app = _veracodeRepository.GetAppDetail($"{generate.AppId}");
-            var latestbuild = _veracodeRepository.GetBuildDetail($"{generate.AppId}", $"{generate.ScanId}");
-            var latestFiles = _veracodeRepository.GetFilesForBuild($"{generate.AppId}", $"{generate.ScanId}");
-            var previousBuildId = _veracodeRepository.GetAllBuildsForApp($"{generate.AppId}")
+            var app = _veracodeRepository.GetAppDetail(generate.AppId);
+            var latestbuild = _veracodeRepository.GetBuildDetail(generate.AppId, generate.ScanId);
+            var latestFiles = _veracodeRepository.GetFilesForBuild(generate.AppId, generate.ScanId);
+            var previousBuildId = _veracodeRepository.GetAllBuildsForApp(generate.AppId)
                 .OrderByDescending(x => x.build_id)
                 .Skip(1).Take(1);
-            var previousFiles = _veracodeRepository.GetFilesForBuild($"{generate.AppId}", $"{previousBuildId}");
-            var previous11BuildList = _veracodeRepository.GetAllBuildsForApp($"{generate.AppId}")
+            var previousFiles = _veracodeRepository.GetFilesForBuild(generate.AppId, $"{previousBuildId}");
+            var previous11BuildList = _veracodeRepository.GetAllBuildsForApp(generate.AppId)
                 .OrderByDescending(x => x.build_id)
                 .Skip(1).Take(11);
             List<FileListFileType> previousFilesLast12 = new List<FileListFileType>();
@@ -161,7 +161,7 @@ namespace VeraCustomTriage.Logic
 
             foreach (var build in previous11BuildList)
             {
-                var buildFiles = _veracodeRepository.GetFilesForBuild($"{generate.AppId}", $"{build.build_id}");
+                var buildFiles = _veracodeRepository.GetFilesForBuild(generate.AppId, $"{build.build_id}");
                 previousFilesLast12.AddRange(buildFiles);
             }
 
@@ -186,9 +186,9 @@ namespace VeraCustomTriage.Logic
 
         public byte[] GenerateSupportingEmail(GenerateReport generate)
         {
-            var app = _veracodeRepository.GetAppDetail($"{generate.AppId}");
-            var modules = _veracodeRepository.GetModules($"{generate.AppId}", $"{generate.ScanId}");
-            var build = _veracodeRepository.GetBuildDetail($"{generate.AppId}", $"{generate.ScanId}");
+            var app = _veracodeRepository.GetAppDetail(generate.AppId);
+            var modules = _veracodeRepository.GetModules(generate.AppId, generate.ScanId);
+            var build = _veracodeRepository.GetBuildDetail(generate.AppId, generate.ScanId);
             var errors = modules.SelectMany(x => x.file_issue.Select(f => $"{f.filename}:{f.details}").ToArray());
             var errorStr = string.Join("\n", errors);
 
