@@ -1,6 +1,6 @@
 {
-  "Templates": [],
-  "AutoResponses": [
+  "Template": [],
+  "AutoResponse": [
     {
       "Title": "CWE 73",
       "Response": "I would also personally recommend reading this article from one of the wizards at Veracode https://community.veracode.com/s/article/how-do-i-fix-cwe-73-external-control-of-file-name-or-path-in-java.",

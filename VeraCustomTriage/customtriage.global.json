@@ -1,11 +1,11 @@
 {
-  "Templates": [
+  "Template": [
     {
       "Title": "flaw-intro-email",
       "Text": "This is an introductory email about flaws"
     }
   ],
-  "AutoResponses": [
+  "AutoResponse": [
     {
       "Title": "CWE 73",
       "Response": "CWE 73 is due to user input that is unvalidated and used in a file based operation. This can allow an attacker to breakout of the intended location of the file based activity by using input such as ..\\..\\..\\",

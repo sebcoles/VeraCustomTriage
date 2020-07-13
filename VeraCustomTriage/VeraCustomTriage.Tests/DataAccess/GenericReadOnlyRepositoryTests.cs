@@ -16,7 +16,7 @@ namespace VeraCustomTriage.Tests.DataAccess
     {
         private string[] jsonPaths = new string[]
         {
-            "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.customer.json",
+            "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.global.json",
             "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.team.json",
             "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.personal.json"
         };

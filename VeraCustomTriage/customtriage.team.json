@@ -1,6 +1,6 @@
 {
-  "Templates": [],
-  "AutoResponses": [
+  "Template": [],
+  "AutoResponse": [
     {
       "Title": "CWE 73",
       "Response": "To remeidate this flaw you must validate the user input before creating the File object. We would recommend you use our custom cleanser for this which is on the internal NuGet called \"VeraCleanse\". If you need help please to Bill in IT Security.",

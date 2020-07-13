@@ -20,12 +20,16 @@ namespace VeraCustomTriage.DataAccess.Json
         {
             _jsonPath = jsonPath;
             _typeName = typeof(TEntity).Name;
-            _dbContext = new JsonConfig();
+            _dbContext = new JsonConfig
+            {
+                Template = new List<Template>(),
+                AutoResponse = new List<AutoResponse>()
+            };
             foreach (var path in jsonPath)
             {
                 var current = LoadJson(path).Result;
-                _dbContext.AutoResponses.AddRange(current.AutoResponses);
-                _dbContext.Templates.AddRange(current.Templates);
+                _dbContext.AutoResponse.AddRange(current.AutoResponse);
+                _dbContext.Template.AddRange(current.Template);
             }
         }
 
@@ -36,7 +40,7 @@ namespace VeraCustomTriage.DataAccess.Json
         }
         public IQueryable<TEntity> GetAll()
         {
-            var field = typeof(JsonConfig).GetFields().Single(x => x.Name.Equals(_typeName));
+            var field = typeof(JsonConfig).GetProperties().Single(x => x.Name.Equals(_typeName));
             return (IQueryable<TEntity>)field.GetValue(_dbContext);
         }
     }
