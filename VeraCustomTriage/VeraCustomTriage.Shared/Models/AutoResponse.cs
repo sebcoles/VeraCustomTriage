@@ -2,7 +2,7 @@
 
 namespace VeraCustomTriage.Shared.Models
 {
-    public class AutoResponse : BaseEntity
+    public class AutoResponse
     {
         public string Title { get; set; }
         public string Response { get; set; }

@@ -9,18 +9,24 @@ using VeraCustomTriage.Shared.Models;
 
 namespace VeraCustomTriage.DataAccess.Json
 {
-    public class GenericReadOnlyRepository<TEntity> : IGenericReadOnlyRepository<TEntity> where TEntity : BaseEntity
+    public class GenericReadOnlyRepository<TEntity> : IGenericReadOnlyRepository<TEntity>
     {
-        private string _jsonPath;
+        private string[] _jsonPath;
         private string _typeName;
         private JsonConfig _dbContext;
         private readonly HttpClient client = new HttpClient();
 
-        public GenericReadOnlyRepository(string jsonPath)
+        public GenericReadOnlyRepository(string[] jsonPath)
         {
             _jsonPath = jsonPath;
             _typeName = typeof(TEntity).Name;
-            _dbContext = LoadJson(_jsonPath).Result;
+            _dbContext = new JsonConfig();
+            foreach (var path in jsonPath)
+            {
+                var current = LoadJson(path).Result;
+                _dbContext.AutoResponses.AddRange(current.AutoResponses);
+                _dbContext.Templates.AddRange(current.Templates);
+            }
         }
 
         public async Task<JsonConfig> LoadJson(string jsonPath)

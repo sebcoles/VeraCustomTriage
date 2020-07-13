@@ -8,19 +8,21 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A0F3F28-8D4B-4DA9-89FF-47C6BBD3AF9B}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
-		customtriage.customer.json = customtriage.customer.json
 		customtriage.global.json = customtriage.global.json
 		customtriage.personal.json = customtriage.personal.json
+		customtriage.team.json = customtriage.team.json
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.Shared", "VeraCustomTriage.Shared\VeraCustomTriage.Shared.csproj", "{B0248617-FB92-4948-B338-70D9850DE425}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.Shared", "VeraCustomTriage.Shared\VeraCustomTriage.Shared.csproj", "{B0248617-FB92-4948-B338-70D9850DE425}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{D066D69F-1DB3-4216-913C-B2F120AD65A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.DataAccess.Json", "VeraCustomTriage.DataAccess.Json\VeraCustomTriage.DataAccess.Json.csproj", "{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.DataAccess.Json", "VeraCustomTriage.DataAccess.Json\VeraCustomTriage.DataAccess.Json.csproj", "{F3F64F9E-95AF-492F-8B0C-704A690CA0AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.Console", "VeraCustomTriage.Console\VeraCustomTriage.Console.csproj", "{2D1A0EAD-B074-4291-8D38-691F239ECA4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeraCustomTriage.Console", "VeraCustomTriage.Console\VeraCustomTriage.Console.csproj", "{2D1A0EAD-B074-4291-8D38-691F239ECA4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeraCustomTriage.Tests", "VeraCustomTriage.Tests\VeraCustomTriage.Tests.csproj", "{87F8D8D0-E1B6-4863-B749-7EB1B6753C44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{2D1A0EAD-B074-4291-8D38-691F239ECA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D1A0EAD-B074-4291-8D38-691F239ECA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D1A0EAD-B074-4291-8D38-691F239ECA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87F8D8D0-E1B6-4863-B749-7EB1B6753C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F8D8D0-E1B6-4863-B749-7EB1B6753C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F8D8D0-E1B6-4863-B749-7EB1B6753C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F8D8D0-E1B6-4863-B749-7EB1B6753C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
