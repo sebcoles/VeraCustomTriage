@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,16 +17,20 @@ namespace VeraCustomTriage.DataAccess.Json
         private JsonConfig _dbContext;
         private readonly HttpClient client = new HttpClient();
 
-        public GenericReadOnlyRepository(string[] jsonPath)
+        public GenericReadOnlyRepository(IOptions<EndpointConfiguration> config)
         {
-            _jsonPath = jsonPath;
+            _jsonPath = new[]{
+                    config.Value.Global,
+                    config.Value.Team,
+                    config.Value.Personal
+                };
             _typeName = typeof(TEntity).Name;
             _dbContext = new JsonConfig
             {
                 Template = new List<Template>(),
                 AutoResponse = new List<AutoResponse>()
             };
-            foreach (var path in jsonPath)
+            foreach (var path in _jsonPath)
             {
                 var current = LoadJson(path).Result;
                 _dbContext.AutoResponse.AddRange(current.AutoResponse);
@@ -41,7 +46,8 @@ namespace VeraCustomTriage.DataAccess.Json
         public IQueryable<TEntity> GetAll()
         {
             var field = typeof(JsonConfig).GetProperties().Single(x => x.Name.Equals(_typeName));
-            return (IQueryable<TEntity>)field.GetValue(_dbContext);
+            var list = (List<TEntity>)field.GetValue(_dbContext);
+            return list.AsQueryable();
         }
     }
 }

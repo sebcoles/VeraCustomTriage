@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.Options;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,17 +15,18 @@ namespace VeraCustomTriage.Tests.DataAccess
     [TestFixture]
     public class GenericReadOnlyRepositoryTests
     {
-        private string[] jsonPaths = new string[]
-        {
-            "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.global.json",
-            "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.team.json",
-            "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.personal.json"
-        };
-
         [Test]
         public void GetAllReturnsAutoResponses()
         {
-            var responsesRepository = new GenericReadOnlyRepository<AutoResponse>(jsonPaths);
+            var settings = new EndpointConfiguration()
+            {
+                Global = "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.global.json",
+                Team = "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.team.json",
+                Personal = "https://raw.githubusercontent.com/sebcoles/VeraCustomTriage/master/VeraCustomTriage/customtriage.personal.json"
+            };
+        
+            IOptions<EndpointConfiguration> config = Options.Create(settings);
+            var responsesRepository = new GenericReadOnlyRepository<AutoResponse>(config);
             Assert.AreEqual(responsesRepository.GetAll().Count(), 3);
         }
     }

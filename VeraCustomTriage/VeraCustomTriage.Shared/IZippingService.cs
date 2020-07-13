@@ -1,8 +1,6 @@
 ﻿using Ionic.Zip;
-using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.IO;
-using VeraCustomTriage.Shared.Configuration;
 
 namespace VeraCustomTriage.Shared
 {

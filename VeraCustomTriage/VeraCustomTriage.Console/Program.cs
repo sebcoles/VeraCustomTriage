@@ -10,7 +10,6 @@ using VeraCustomTriage.DataAccess.Json;
 using VeraCustomTriage.Logic;
 using VeraCustomTriage.Logic.Models;
 using VeraCustomTriage.Shared;
-using VeraCustomTriage.Shared.Configuration;
 using VeraCustomTriage.Shared.Models;
 
 namespace VeraCustomTriage.Console
@@ -31,6 +30,7 @@ namespace VeraCustomTriage.Console
                 .Build();
 
             var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<EndpointConfiguration>(options => Configuration.GetSection("Endpoint").Bind(options));
             serviceCollection.Configure<VeracodeConfiguration>(options => Configuration.GetSection("Veracode").Bind(options));
             serviceCollection.Configure<ExcelConfiguration>(options => Configuration.GetSection("ExcelConfiguration").Bind(options));
             serviceCollection.AddScoped<IVeracodeRepository, VeracodeRepository>();
