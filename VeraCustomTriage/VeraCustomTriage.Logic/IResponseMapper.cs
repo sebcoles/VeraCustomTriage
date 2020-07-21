@@ -27,10 +27,9 @@ namespace VeraCustomTriage.Logic
         }
         public FlawType UpdateCategoryName(FlawType flawType)
         {
-            var renames = _renameRepository.GetAll();
-            foreach (var rename in renames)            
-                if (flawType.categoryid.Equals(rename.CategoryId))                
-                    flawType.categoryname = rename.Rename;
+            var rename = _renameRepository.GetAll().SingleOrDefault(x => x.CweId.Equals(flawType.cweid));
+            if(rename != null)
+                flawType.categoryname = rename.Rename;
 
             return flawType;
         }

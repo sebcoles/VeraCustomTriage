@@ -2,15 +2,15 @@
   "Template": [],
   "CategoryRename": [
     {
-      "CategoryId": "259",
+      "CweId": "259",
       "Rename": "Hardcoded Password"
     },
     {
-      "CategoryId": "80",
+      "CweId": "80",
       "Rename": "XSS"
     },
     {
-      "CategoryId": "89",
+      "CweId": "89",
       "Rename": "SQL Injection"
     }
   ],
