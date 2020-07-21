@@ -36,6 +36,7 @@ namespace VeraCustomTriage.Console
             serviceCollection.AddScoped<IVeracodeRepository, VeracodeRepository>();
             serviceCollection.AddTransient<IGenericReadOnlyRepository<AutoResponse>, GenericReadOnlyRepository<AutoResponse>>();
             serviceCollection.AddTransient<IGenericReadOnlyRepository<Template>, GenericReadOnlyRepository<Template>>();
+            serviceCollection.AddTransient<IGenericReadOnlyRepository<CategoryRename>, GenericReadOnlyRepository<CategoryRename>>();
             serviceCollection.AddScoped<ITemplateWriter, TemplateWriter>();
             serviceCollection.AddScoped<IOutputWriter, ExcelWriter>();
             serviceCollection.AddScoped<IResponseMapper, ResponseMapper>();

@@ -47,6 +47,9 @@ namespace VeraCustomTriage.DataAccess.Json
         {
             var field = typeof(JsonConfig).GetProperties().Single(x => x.Name.Equals(_typeName));
             var list = (List<TEntity>)field.GetValue(_dbContext);
+            if (list == null)
+                return new List<TEntity>().AsQueryable();
+
             return list.AsQueryable();
         }
     }

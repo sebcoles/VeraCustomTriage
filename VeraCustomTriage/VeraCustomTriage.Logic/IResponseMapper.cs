@@ -9,15 +9,30 @@ namespace VeraCustomTriage.Logic
     public interface IResponseMapper
     {
         KeyValuePair<FlawType, AutoResponse[]> GetResponse(FlawType flaw);
+        FlawType UpdateCategoryName(FlawType flawType);
     }
 
     public class ResponseMapper : IResponseMapper
     {
         private IGenericReadOnlyRepository<AutoResponse> _responseRepository;
+        private IGenericReadOnlyRepository<CategoryRename> _renameRepository;
 
-        public ResponseMapper(IGenericReadOnlyRepository<AutoResponse> responseRepository)
+        public ResponseMapper(
+            IGenericReadOnlyRepository<AutoResponse> responseRepository,
+            IGenericReadOnlyRepository<CategoryRename> renameRepository
+            )
         {
             _responseRepository = responseRepository;
+            _renameRepository = renameRepository;
+        }
+        public FlawType UpdateCategoryName(FlawType flawType)
+        {
+            var renames = _renameRepository.GetAll();
+            foreach (var rename in renames)            
+                if (flawType.categoryid.Equals(rename.CategoryId))                
+                    flawType.description = rename.Rename;
+
+            return flawType;
         }
         public KeyValuePair<FlawType, AutoResponse[]> GetResponse(FlawType flaw)
         {

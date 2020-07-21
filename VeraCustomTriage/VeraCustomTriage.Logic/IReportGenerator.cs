@@ -48,7 +48,13 @@ namespace VeraCustomTriage.Logic
         }
         public byte[] GenerateZip(GenerateReport generate, string password)
         {
-            var flaws = _veracodeRepository.GetFlaws(generate.ScanId.ToString());
+            var flaws = _veracodeRepository
+                .GetFlaws(generate.ScanId.ToString())
+                .Where(x => 
+                x.remediation_status.ToLower().Equals("open") ||
+                x.remediation_status.ToLower().Equals("reopened")
+                ).Select(_responseMapper.UpdateCategoryName).ToArray();
+
             var report = new Report
             {
                 FlawsAndResponses = flaws.Select(_responseMapper.GetResponse).ToArray()
