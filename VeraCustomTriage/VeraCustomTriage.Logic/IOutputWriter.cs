@@ -43,7 +43,6 @@ namespace VeraCustomTriage.Logic
                 FlawId = x.Key.issueid,
                 CategoryDescription = x.Key.categoryname,
                 ModuleName = x.Key.module,
-                MitigationStatus = x.Key.mitigation_status,
                 ActionToTake = string.Join("\n\n", x.Value.Select(x => x.ActionToTake).Distinct().ToArray()),
                 SecurityTeamComments = string.Join("\n\n", x.Value.Select(x => x.Response).ToArray()),
                 LineNumber = x.Key.line,
@@ -58,9 +57,6 @@ namespace VeraCustomTriage.Logic
             WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
             workbookpart.Workbook = new Workbook();
             WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
-
-            SetupStyleSheet(workbookpart);
-
             Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
             Sheet sheet = new Sheet()
             {
@@ -95,8 +91,7 @@ namespace VeraCustomTriage.Logic
                 {
                     CellReference = alpha[i] + $"{1}",
                     CellValue = new CellValue(_fields[i]),
-                    DataType = CellValues.String,
-                    StyleIndex = 7
+                    DataType = CellValues.String
                 };
                 row.Append(cell);
             }
@@ -114,8 +109,7 @@ namespace VeraCustomTriage.Logic
                 {
                     CellReference = alpha[i] + $"{index}",
                     CellValue = new CellValue(fields[i].GetValue(lineItem).ToString()),
-                    DataType = CellValues.String,
-                    StyleIndex = GetStyleIndex(lineItem, fields[i].Name)
+                    DataType = CellValues.String
                 };
                 row.Append(cell);
             }
@@ -124,8 +118,7 @@ namespace VeraCustomTriage.Logic
             {
                 CellReference = alpha[fields.Length] + $"{index}",
                 DataType = new EnumValue<CellValues>(CellValues.Number),
-                CellFormula = new CellFormula($"=DATEDIF(D{index},TODAY(),\"D\")"),
-                StyleIndex = GetStyleIndex(lineItem, "DaysSinceFound")
+                CellFormula = new CellFormula($"=DATEDIF(D{index},TODAY(),\"D\")")
             };
             row.Append(cell2);
             return row;
