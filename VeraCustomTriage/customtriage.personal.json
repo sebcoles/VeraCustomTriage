@@ -1,9 +1,18 @@
 {
   "Template": [],
   "CategoryRename": [
-    { "259": "Hardcoded Password" },
-    { "80": "XSS" },
-    { "89": "SQL Injection" }
+    {
+      "CategoryId": "259",
+      "Rename": "Hardcoded Password"
+    },
+    {
+      "CategoryId": "80",
+      "Rename": "XSS"
+    },
+    {
+      "CategoryId": "89",
+      "Rename": "SQL Injection"
+    }
   ],
   "AutoResponse": [
     {
