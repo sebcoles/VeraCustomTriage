@@ -28,13 +28,15 @@ namespace VeraCustomTriage.DataAccess.Json
             _dbContext = new JsonConfig
             {
                 Template = new List<Template>(),
-                AutoResponse = new List<AutoResponse>()
+                AutoResponse = new List<AutoResponse>(),
+                CategoryRename = new List<CategoryRename>()
             };
             foreach (var path in _jsonPath)
             {
                 var current = LoadJson(path).Result;
                 _dbContext.AutoResponse.AddRange(current.AutoResponse);
                 _dbContext.Template.AddRange(current.Template);
+                _dbContext.CategoryRename.AddRange(current.CategoryRename);
             }
         }
 

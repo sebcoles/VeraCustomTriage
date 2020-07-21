@@ -30,7 +30,7 @@ namespace VeraCustomTriage.Logic
             var renames = _renameRepository.GetAll();
             foreach (var rename in renames)            
                 if (flawType.categoryid.Equals(rename.CategoryId))                
-                    flawType.description = rename.Rename;
+                    flawType.categoryname = rename.Rename;
 
             return flawType;
         }

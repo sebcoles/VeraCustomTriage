@@ -43,7 +43,6 @@ namespace VeraCustomTriage.Logic
                 FlawId = x.Key.issueid,
                 CategoryDescription = x.Key.categoryname,
                 ModuleName = x.Key.module,
-                RemeditationStatus = x.Key.remediation_status,
                 MitigationStatus = x.Key.mitigation_status,
                 ActionToTake = string.Join("\n\n", x.Value.Select(x => x.ActionToTake).Distinct().ToArray()),
                 SecurityTeamComments = string.Join("\n\n", x.Value.Select(x => x.Response).ToArray()),

@@ -5,6 +5,7 @@
       "Text": "This is an introductory email about flaws"
     }
   ],
+  "CategoryRename": [],
   "AutoResponse": [
     {
       "Title": "CWE 73",
@@ -16,6 +17,6 @@
           "ActionToTake": "Fix"
         }
       ]
-    }    
+    }
   ]
 }
