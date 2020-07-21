@@ -17,6 +17,17 @@
           "ActionToTake": "Fix"
         }
       ]
+    },
+    {
+      "Title": "CWE 259",
+      "Response": "We would not recommend credentials are hardcoded in a source code repository.\nCredentials should be stored in a cryptographically secured location, with appropriate access and audit controls. If a credential is stored within source control, it can be easily read and if the repository is cloned onto a local machine, it can find itself outside of enterprise security controls.\nHowever, CWE 259 is also notoriously difficult for SAST to detect accurately but quick for a human to validate. If this is clearly not a password, then please raise a Potential False Positive in the platform with the statement “this is not a password”. ",
+      "PropertyConditions": [
+        {
+          "Property": "cweid",
+          "Condition": "259",
+          "ActionToTake": "Potential False Positive, Mitigate or Fix"
+        }
+      ]
     }
   ]
 }
