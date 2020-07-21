@@ -6,6 +6,7 @@ namespace VeraCustomTriage.Shared.Models
     {
         public string Title { get; set; }
         public string Response { get; set; }
+        public string ActionToTake { get; set; }
         public List<PropertyCondition> PropertyConditions { get; set; }
     }
 }

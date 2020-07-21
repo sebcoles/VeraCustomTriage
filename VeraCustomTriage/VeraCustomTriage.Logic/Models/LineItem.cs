@@ -17,6 +17,7 @@ namespace VeraCustomTriage.Logic.Models
         public string ModuleName { get; set; }
         public string RemeditationStatus { get; set; }
         public string MitigationStatus { get; set; }
+        public string ActionToTake { get; set; }
         public string SecurityTeamComments { get; set; }
         public string DevelopmentTeamComments { get; set; }
         public string EstimatedRemediationDate { get; set; }

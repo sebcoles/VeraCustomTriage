@@ -12,7 +12,8 @@
       "PropertyConditions": [
         {
           "Property": "cweid",
-          "Condition": "73"
+          "Condition": "73",
+          "ActionToTake": "Fix"
         }
       ]
     }    
