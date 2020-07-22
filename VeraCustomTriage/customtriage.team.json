@@ -15,7 +15,7 @@
     },
     {
       "Title": "CWE 259",
-      "Response": "If this is not a hardcoded password but a reference to an external configuration or flat file, please raise a “mitigate by design” within the Veracode portal. Please describe how this file is controlled in a production environment, including the contact of the support team.",
+      "Response": "If this is not a hardcoded password but a reference to an external configuration or flat file, please raise a \"mitigate by design\" within the Veracode portal. Please describe how this file is controlled in a production environment, including the contact of the support team.",
       "PropertyConditions": [
         {
           "Property": "cweid",
