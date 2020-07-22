@@ -9,6 +9,7 @@ using VeraCustomTriage.Logic.Models.Templates;
 using VeracodeService.Models;
 using VeraCustomTriage.Shared;
 using VeraCustomTriage.Shared.Models;
+using Microsoft.Extensions.Options;
 
 namespace VeraCustomTriage.Logic
 {
@@ -31,12 +32,14 @@ namespace VeraCustomTriage.Logic
         private IGenericReadOnlyRepository<Template> _templateRepository;
         private ITemplateWriter _templateWriter;
         private IZippingService _zippingService;
+        private FlawFilterConfiguration _flawFilter;
         public ReportGenerator(IResponseMapper responseMapper,
             IVeracodeRepository veracodeRepository,
             IOutputWriter outputWriter,
             IGenericReadOnlyRepository<Template> templateRepository,
             ITemplateWriter templateWriter,
-            IZippingService zippingService
+            IZippingService zippingService,
+            IOptions<FlawFilterConfiguration> flawFilter
             )
         {
             _responseMapper = responseMapper;
@@ -45,6 +48,7 @@ namespace VeraCustomTriage.Logic
             _templateRepository = templateRepository;
             _templateWriter = templateWriter;
             _zippingService = zippingService;
+            _flawFilter = flawFilter.Value;
         }
         public byte[] GenerateZip(GenerateReport generate, string password)
         {
@@ -68,12 +72,18 @@ namespace VeraCustomTriage.Logic
 
         private FlawType[] FilterFlaws(FlawType[] flaws)
         {
-            return flaws.Where(x =>
-                (x.remediation_status.ToLower().Equals("open") ||
-                x.remediation_status.ToLower().Equals("reopened")) &&
-                (x.severity.ToLower().Equals("4") ||
-                x.severity.ToLower().Equals("5"))
-                ).ToArray();
+            var filterFlaws = new List<FlawType>();
+            foreach(var flaw in flaws)
+            {
+                int check = 0;
+                foreach(var collection in _flawFilter.PropertyConditionCollections)                
+                    if (collection.PropertyConditions.Any(x => _responseMapper.HaveIBeenMet(flaw, x)))
+                        check++;
+                
+                if (check == _flawFilter.PropertyConditionCollections.Count())
+                    filterFlaws.Add(flaw);
+            }
+            return filterFlaws.ToArray();
         }
 
         public byte[] GenerateReport(GenerateReport generate)

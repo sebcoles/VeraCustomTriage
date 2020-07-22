@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using VeraCustomTriage.DataAccess.Json;
 using VeraCustomTriage.Logic;
 using VeraCustomTriage.Logic.Models;
 using VeraCustomTriage.Shared;
+using VeraCustomTriage.Shared.Helpers;
 using VeraCustomTriage.Shared.Models;
 
 namespace VeraCustomTriage.Console
@@ -29,9 +31,13 @@ namespace VeraCustomTriage.Console
 #endif
                 .Build();
 
+            var jam = Configuration.GetSection("FlawFilterConfiguration");
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<EndpointConfiguration>(options => Configuration.GetSection("Endpoint").Bind(options));
-            serviceCollection.Configure<VeracodeConfiguration>(options => Configuration.GetSection("Veracode").Bind(options));
+            serviceCollection.Configure<FlawFilterConfiguration>(options => Configuration.GetSection("FlawFilterConfiguration").Bind(options));
+            serviceCollection.AddTransient(options => Options.Create(
+                VeracodeFileHelper.GetConfiguration(
+                    Configuration.GetValue<string>("VeracodeFileLocation"))));
             serviceCollection.Configure<ExcelConfiguration>(options => Configuration.GetSection("ExcelConfiguration").Bind(options));
             serviceCollection.AddScoped<IVeracodeRepository, VeracodeRepository>();
             serviceCollection.AddTransient<IGenericReadOnlyRepository<AutoResponse>, GenericReadOnlyRepository<AutoResponse>>();

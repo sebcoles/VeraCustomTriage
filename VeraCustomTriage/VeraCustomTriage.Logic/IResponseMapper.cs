@@ -10,6 +10,7 @@ namespace VeraCustomTriage.Logic
     {
         KeyValuePair<FlawType, AutoResponse[]> GetResponse(FlawType flaw);
         FlawType UpdateCategoryName(FlawType flawType);
+        bool HaveIBeenMet(FlawType flaw, PropertyCondition condition);
     }
 
     public class ResponseMapper : IResponseMapper
@@ -47,7 +48,7 @@ namespace VeraCustomTriage.Logic
             return new KeyValuePair<FlawType, AutoResponse[]>(flaw, returnList.ToArray());
         }
 
-        private bool HaveIBeenMet(FlawType flaw, PropertyCondition condition)
+        public bool HaveIBeenMet(FlawType flaw, PropertyCondition condition)
             => flaw.GetType().GetProperties()
             .Any(prop => prop.Name.ToLower() == condition.Property.ToLower()
             && prop.GetValue(flaw).ToString().Contains(condition.Condition));
