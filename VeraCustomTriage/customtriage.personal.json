@@ -12,6 +12,10 @@
     {
       "CweId": "89",
       "Rename": "SQL Injection"
+    },
+    {
+      "CweId": "78",
+      "Rename": "OS Command Injection"
     }
   ],
   "AutoResponse": [
