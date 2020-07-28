@@ -59,6 +59,7 @@ namespace VeraCustomTriage.Console
 
         static int Run(RunOptions options)
         {
+            System.Console.WriteLine($"Starting report generation for app {options.AppId} and scan {options.ScanId}...");
             var reportGenerator = _serviceProvider.GetService<IReportGenerator>();
             var generateReport = new GenerateReport
             {
@@ -68,6 +69,8 @@ namespace VeraCustomTriage.Console
             var reportBytes = reportGenerator.GenerateZip(generateReport, options.Password);
             var reportName = reportGenerator.ScanName(generateReport);
             File.WriteAllBytes($"{options.FilePath}{reportName}.zip", reportBytes);
+            System.Console.WriteLine($"The report is here: {options.FilePath}{reportName}.zip");
+            System.Console.WriteLine($"Done!");
             return 1;
         }
 

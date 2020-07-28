@@ -52,20 +52,24 @@ namespace VeraCustomTriage.Logic
         }
         public byte[] GenerateZip(GenerateReport generate, string password)
         {
+            Console.WriteLine("Retrieving flaws...");
             var flaws = _veracodeRepository
                 .GetFlaws(generate.ScanId.ToString())
                 .Select(_responseMapper.UpdateCategoryName).ToArray();
-
+            Console.WriteLine($"{flaws.Count()} flaws retrieved. Filtering...");
             flaws = FilterFlaws(flaws);
+            Console.WriteLine($"{flaws.Count()} remaining after filter. Merging responses...");
             var report = new Report
             {
                 FlawsAndResponses = flaws.Select(_responseMapper.GetResponse).ToArray()
             };
+            Console.WriteLine($"Generating spreadsheet...");
             var xlsx = _outputWriter.Write(report);
             var datas = new List<KeyValuePair<string, MemoryStream>>
             {
                 new KeyValuePair<string, MemoryStream>("flaws.xlsx", xlsx)
             };
+            Console.WriteLine($"Zipping...");
             var zip = _zippingService.Zip(datas, password);
             return zip.ToArray();
         }
