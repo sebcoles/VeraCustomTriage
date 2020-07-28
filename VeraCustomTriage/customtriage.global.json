@@ -52,7 +52,7 @@
     },
      {
       "Title": "Known flaw in verademo.war that needs special fix",
-      "Response": "Veracode is picking up unvalidated input being passed to a SQL Query. You have multiple options to tackle this flaw:\n1) Use prepared statements such as describe here https://downloads.veracode.com/securityscan/cwe/v4/java/89.html#example. \n 2) Use an object relational mapper (ORM) technology instead of using hardcoded SQL commands. This will save your team alot of time going forward if you switch to something like Hibernate.\n3) Hardcode the command in some way. Could the user input be used as a switch for different hardcoded strings, instead of inserting user input into the SQL command?\n4)Not all SQL query parts can be parameterised such as table names. In this case, we would expect them to be passed through a hardcoded allow list or pattern validation before being concatenated.\nFor Option 3 we would will have to provide you with a TSRV template so that we can mitigate the flaw. This will require details of the allow lists and validation applied to the input paramters.",
+      "Response": "Team A have a fix for this, please reach out to #teama on slack.",
       "PropertyConditions": [
         {
           "Property": "module",
