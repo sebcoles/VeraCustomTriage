@@ -19,6 +19,38 @@
       ]
     },
     {
+      "Title": "CWE 78",
+      "Response": "Veracode is picking up unvalidated input getting to the command line. Please review this https://downloads.veracode.com/securityscan/cwe/v4/java/78.html#example. \n Your options are: \n 1. Ideally remove the functionality if their is a safe options within the JDK to do this.\n2) Hardcode the command in some way. Could the user input be used as a switch for different hardcoded strings, instead of inserting user input into the command?\n3)Please ensure you are using appropriate datatypes, if you are passing an integer, cast to an integer before inserting into the command. In the case of strings, we would expect them to be passed through a hardcoded allow list before being concatenated.\nFor Option 3 we would will have to provide you with a TSRV template so that we can mitigate the flaw. This will require details of the allow lists and validation applied to the input paramters.",
+      "PropertyConditions": [
+        {
+          "Property": "cweid",
+          "Condition": "78",
+          "ActionToTake": "Fix"
+        },
+        {
+          "Property": "sourcefile",
+          "Condition": "java",
+          "ActionToTake": "Fix"
+        }
+      ]
+    },
+    {
+      "Title": "CWE 89",
+      "Response": "Veracode is picking up unvalidated input being passed to a SQL Query. You have multiple options to tackle this flaw:\n1) Use prepared statements such as describe here https://downloads.veracode.com/securityscan/cwe/v4/java/89.html#example. \n 2) Use an object relational mapper (ORM) technology instead of using hardcoded SQL commands. This will save your team alot of time going forward if you switch to something like Hibernate.\n3) Hardcode the command in some way. Could the user input be used as a switch for different hardcoded strings, instead of inserting user input into the SQL command?\n4)Not all SQL query parts can be parameterised such as table names. In this case, we would expect them to be passed through a hardcoded allow list or pattern validation before being concatenated.\nFor Option 3 we would will have to provide you with a TSRV template so that we can mitigate the flaw. This will require details of the allow lists and validation applied to the input paramters.",
+      "PropertyConditions": [
+        {
+          "Property": "cweid",
+          "Condition": "89",
+          "ActionToTake": "Fix"
+        },
+        {
+          "Property": "sourcefile",
+          "Condition": "java",
+          "ActionToTake": "Fix"
+        }
+      ]
+    }
+    {
       "Title": "CWE 259",
       "Response": "We would not recommend credentials are hardcoded in a source code repository.\nCredentials should be stored in a cryptographically secured location, with appropriate access and audit controls. If a credential is stored within source control, it can be easily read and if the repository is cloned onto a local machine, it can find itself outside of enterprise security controls.\nHowever, CWE 259 is also notoriously difficult for SAST to detect accurately but quick for a human to validate. If this is clearly not a password, then please raise a Potential False Positive in the platform with the statement \"this is not a password\". ",
       "PropertyConditions": [
