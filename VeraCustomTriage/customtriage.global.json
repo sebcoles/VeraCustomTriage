@@ -20,7 +20,7 @@
     },
     {
       "Title": "CWE 78",
-      "Response": "Veracode is picking up unvalidated input getting to the command line. Please review this https://downloads.veracode.com/securityscan/cwe/v4/java/78.html#example. \n Your options are: \n 1. Ideally remove the functionality if their is a safe options within the JDK to do this.\n2) Hardcode the command in some way. Could the user input be used as a switch for different hardcoded strings, instead of inserting user input into the command?\n3)Please ensure you are using appropriate datatypes, if you are passing an integer, cast to an integer before inserting into the command. In the case of strings, we would expect them to be passed through a hardcoded allow list before being concatenated.\nFor Option 3 we would will have to provide you with a TSRV template so that we can mitigate the flaw. This will require details of the allow lists and validation applied to the input paramters.",
+      "Response": "Veracode is picking up unvalidated input getting to the command line. Please review this https://downloads.veracode.com/securityscan/cwe/v4/java/78.html#example. \n Your options are: \n 1) Ideally remove the functionality if there is a safer options to do this within Java. For example using File.Delete() instead of deleting files using the command line.\n2) Hard code the command. Could the user input be used as a switch for different hardcoded strings, instead of inserting user input directly into the command?\n3)Please ensure you are using appropriate datatypes, if you are passing an integer, cast to an integer before inserting into the command. In the case of strings, we would expect them to be passed through a hardcoded allow list before being concatenated.\nFor Option 3 we would will have to provide you with a TSRV template so that we can mitigate the flaw. This will require details of the allow lists and validation applied to the input paramters.",
       "PropertyConditions": [
         {
           "Property": "cweid",
@@ -46,6 +46,27 @@
         {
           "Property": "sourcefile",
           "Condition": "java",
+          "ActionToTake": "Fix"
+        }
+      ]
+    },
+     {
+      "Title": "Known flaw in verademo.war that needs special fix",
+      "Response": "Team A have a fix for this, please reach out to #teama on slack.",
+      "PropertyConditions": [
+        {
+          "Property": "module",
+          "Condition": "verademo.war",
+          "ActionToTake": "Fix"
+        },
+        {
+          "Property": "sourcefile",
+          "Condition": "toolscontroller",
+          "ActionToTake": "Fix"
+        },
+        {
+          "Property": "line",
+          "Condition": "56",
           "ActionToTake": "Fix"
         }
       ]
