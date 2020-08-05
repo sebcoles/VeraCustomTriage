@@ -67,8 +67,8 @@ namespace VeraCustomTriage.Console
                 ScanId = options.ScanId
             };
             var reportBytes = reportGenerator.GenerateZip(generateReport, options.Password);
-            var reportName = reportGenerator.ScanName(generateReport);
-            File.WriteAllBytes($"{options.FilePath}{reportName}.zip", reportBytes);
+            var reportName = $"{options.Prefix}-{reportGenerator.ScanName(generateReport)}-{DateTime.Now.ToLongDateString()}";
+            File.WriteAllBytes($"{options.FilePath}\\{reportName}.zip", reportBytes);
             System.Console.WriteLine($"The report is here: {options.FilePath}{reportName}.zip");
             System.Console.WriteLine($"Done!");
             return 1;

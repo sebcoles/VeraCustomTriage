@@ -51,6 +51,6 @@ namespace VeraCustomTriage.Logic
         public bool HaveIBeenMet(FlawType flaw, PropertyCondition condition)
             => flaw.GetType().GetProperties()
             .Any(prop => prop.Name.ToLower() == condition.Property.ToLower()
-            && prop.GetValue(flaw).ToString().ToLower().Contains(condition.Condition.ToLower()));
+            && $"{prop.GetValue(flaw)}".ToLower().Contains(condition.Condition.ToLower()));
     }
 }

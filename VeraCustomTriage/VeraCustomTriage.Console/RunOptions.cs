@@ -18,6 +18,9 @@ namespace VeraCustomTriage.Console
         [Option('p', "password", Default = false, Required = true, HelpText = "Password for zip file")]
         public string Password { get; set; }
 
+        [Option('x', "prefix", Default = false, Required = true, HelpText = "Prefix the zip file name with a string")]
+        public string Prefix { get; set; }
+
         [Option('f', "filepath", Default = "", Required = false, HelpText = "Location to save encrypted zip")]
         public string FilePath { get; set; }
     }
