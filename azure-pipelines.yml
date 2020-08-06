@@ -10,11 +10,13 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
+    projects: '**/*.csproj'
     command: 'restore'
     includeNuGetOrg: true
 
 - task: DotNetCoreCLI@2
   inputs:
+    projects: '**/*.csproj'
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
