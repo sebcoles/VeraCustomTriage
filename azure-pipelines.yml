@@ -26,5 +26,4 @@ steps:
     repositoryName: sebcoles/VeraCustomTriage
     tag: $(Build.BuildNumber)      
     assets: |
-      $(Build.ArtifactStagingDirectory)/*.exe
-      $(Build.ArtifactStagingDirectory)/appsettings.json
+      $(Build.ArtifactStagingDirectory)/*
