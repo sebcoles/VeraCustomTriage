@@ -10,8 +10,8 @@ namespace VeraCustomTriage.Shared.Helpers
         public static VeracodeConfiguration GetConfiguration(string filelocation)
         {
             string apikey = "", apiId = "";
-
-            using (var file = new System.IO.StreamReader(filelocation))
+            var filePath = Environment.ExpandEnvironmentVariables(filelocation);
+            using (var file = new System.IO.StreamReader(filePath))
             {
                 string line;
                 while ((line = file.ReadLine()) != null)
