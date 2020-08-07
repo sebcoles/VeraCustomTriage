@@ -54,6 +54,6 @@ steps:
     title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
-    assets: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    assets: '$(Build.ArtifactStagingDirectory)/CustomTriageFlaws-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber).zip'
 
 
