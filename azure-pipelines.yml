@@ -32,7 +32,15 @@ steps:
     Contents: |
       **/*.exe
       **/*.dll
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.BinariesDirectory)'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
   
 - task: GitHubRelease@1
   inputs:
@@ -45,6 +53,6 @@ steps:
     title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
-    assets: '$(Build.ArtifactStagingDirectory)'
+    assets: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
 
