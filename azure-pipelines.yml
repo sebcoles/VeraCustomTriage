@@ -32,6 +32,7 @@ steps:
     Contents: |
       **/*.exe
       **/*.dll
+      **/*.Console.runtimeconfig.json
     TargetFolder: '$(Build.BinariesDirectory)'
     flattenFolders: true
 
