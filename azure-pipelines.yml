@@ -39,7 +39,7 @@ steps:
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/CustomTriageFlaws-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber).zip'
     replaceExistingArchive: true
     includeRootFolder: false
   
