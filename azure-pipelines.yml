@@ -33,5 +33,6 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
