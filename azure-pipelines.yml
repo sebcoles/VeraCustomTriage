@@ -6,6 +6,10 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  MajorVersion: 1
+  MinorVersion: 0
+  InitialReleaseTagNumber: 1
+  IncrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
 
 steps:
 - task: DotNetCoreCLI@2
@@ -21,11 +25,13 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
 
-- task: GithubRelease@0 
-  displayName: 'Create GitHub Release'      
+- task: GitHubRelease@1
   inputs:
-    gitHubConnection: sebcoles
-    repositoryName: sebcoles/VeraCustomTriage
-    tag: $(Build.BuildNumber)      
-    assets: |
-      $(Build.ArtifactStagingDirectory)/*
+    gitHubConnection: 'sebcoles'
+    repositoryName: 'sebcoles/VeraCustomTriage'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    tagPattern: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
