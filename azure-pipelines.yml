@@ -26,13 +26,14 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy Files to: $(Build.BinariesDirectory)'
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
       **/*.exe
       **/*.dll
     TargetFolder: '$(Build.BinariesDirectory)'
+    flattenFolders: true
 
 - task: ArchiveFiles@2
   inputs:
