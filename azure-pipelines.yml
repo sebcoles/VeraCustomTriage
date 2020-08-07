@@ -25,13 +25,36 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
 
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.BinariesDirectory)'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      **/*.exe
+      **/*.dll
+      **/*.Console.runtimeconfig.json
+    TargetFolder: '$(Build.BinariesDirectory)'
+    flattenFolders: true
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/CustomTriageFlaws-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber).zip'
+    replaceExistingArchive: true
+    includeRootFolder: false
+  
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'sebcoles'
     repositoryName: 'sebcoles/VeraCustomTriage'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
-    tagPattern: 'release-v[0-9]*\$*'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
+    assets: '$(Build.ArtifactStagingDirectory)/CustomTriageFlaws-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber).zip'
+
+
