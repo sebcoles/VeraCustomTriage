@@ -16,7 +16,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    projects: '**/*.csproj'
+    projects: '**/*Console.csproj'
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
