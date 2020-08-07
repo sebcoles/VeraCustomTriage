@@ -24,6 +24,15 @@ steps:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      **/*.exe
+      **/*.dll
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
   
 - task: GitHubRelease@1
   inputs:
@@ -36,3 +45,6 @@ steps:
     title: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
+    assets: '$(Build.ArtifactStagingDirectory)'
+
+
