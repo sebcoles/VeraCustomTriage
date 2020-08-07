@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="DotNetZip" Version="1.13.8" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.6" />
-	<PackageReference Include="Veracode.OSS.Wrapper" Version="2020.8.5.181721" />
+	  <PackageReference Include="Veracode.OSS.Wrapper" Version="2020.8.5.173241" />
   </ItemGroup>
 
 </Project>
