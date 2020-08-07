@@ -10,11 +10,13 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
+    projects: '**/*.csproj'
     command: 'restore'
     includeNuGetOrg: true
 
 - task: DotNetCoreCLI@2
   inputs:
+    projects: '**/*.csproj'
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
@@ -26,5 +28,4 @@ steps:
     repositoryName: sebcoles/VeraCustomTriage
     tag: $(Build.BuildNumber)      
     assets: |
-      $(Build.ArtifactStagingDirectory)/*.exe
-      $(Build.ArtifactStagingDirectory)/appsettings.json
+      $(Build.ArtifactStagingDirectory)/*
