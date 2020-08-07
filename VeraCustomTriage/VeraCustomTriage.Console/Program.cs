@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using VeracodeService;
-using VeracodeService.Configuration;
 using VeraCustomTriage.DataAccess.Json;
 using VeraCustomTriage.Logic;
 using VeraCustomTriage.Logic.Models;
